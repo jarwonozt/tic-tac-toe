@@ -10,7 +10,7 @@ export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
 
   function handleClick(i) {
-    if (squares[i]) return;
+    if (squares[i] || calculateWinner(squares)) return;
 
     const nextSquares = squares.slice();
     
@@ -20,8 +20,20 @@ export default function Board() {
     
     // console.log(nextSquares);
   }
+
+  const winner = calculateWinner(squares);
+  let status = '';
+
+  if (winner) {
+    status = 'Winner: ' + winner;
+  } else {
+    status = 'Next Player:' + (xIsNext ? 'X' : 'O');
+  }
+  console.log(winner);
   
   return (
+    <>
+    <div className="status">{status}</div>
     <div className="board">
       {/* use arrow function to send parameter in handleClick */}
       <Square value={squares[0]} onSquareClick={() => handleClick(0)} /> 
@@ -34,6 +46,31 @@ export default function Board() {
       <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
       <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
     </div>
+    </>
   );
 }
 
+// winner Logic
+function calculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],    
+    [6, 7, 8],    
+    [0, 3, 6],    
+    [1, 4, 7],
+    [2, 5, 8],    
+    [0, 4, 8],    
+    [2, 4, 6],    
+  ];
+
+  // loop line for check
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+
+    if(squares[a] &&  squares[a] === squares[b] && squares[c]) {
+      return squares[a];
+    }
+  }
+
+  return false;
+}
