@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Square({ value, onSquareClick }) {
   return (
@@ -18,10 +19,7 @@ function Board({ xIsNext, squares, onPlay }) {
     nextSquares[i] = xIsNext ? "X" : "O";
 
     onPlay(nextSquares);
-    // setSquares(nextSquares);
-    // setXIsNext(!xIsNext);
 
-    // console.log(nextSquares);
   }
 
   const winner = calculateWinner(squares);
@@ -32,7 +30,7 @@ function Board({ xIsNext, squares, onPlay }) {
   } else {
     status = 'Next Player:' + (xIsNext ? 'X' : 'O');
   }
-  console.log(winner);
+  // console.log(winner);
 
   return (
     <>
@@ -80,7 +78,7 @@ export default function Game() {
 
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <button className={`btn btn-${move === 0 ? 'dark' : 'primary'} mb-2`} onClick={() => jumpTo(move)}>{description}</button>
       </li>
     );
   });
